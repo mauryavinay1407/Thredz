@@ -4,18 +4,20 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/Protected/Home";
 import Search from "./pages/Protected/Search";
 import Error from "./pages/Error";
+import Register from "./pages/Register";
 
 const App = ()=>{
   return(
     <>
-      <BrowserRouter>
+    <Register/>
+      {/* <BrowserRouter>
        <Header/>
         <Routes>
           <Route path="/"  element={<Home/> }  />
           <Route path="/search" element={<Search/>} />
           <Route path="*" element={<Error/> }  />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </>
   )
 }
