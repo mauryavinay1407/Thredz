@@ -7,6 +7,11 @@ import Error from "./pages/Error";
 import Register from "./pages/Register";
 import { Box } from "@mui/material";
 import Layout from "./pages/Protected/Layout";
+import ProfileLayout from "./pages/Protected/profile/profileLayout";
+import Threads from "./pages/Protected/profile/Threads";
+import Replies from "./pages/Protected/profile/Replies";
+import Reposts from "./pages/Protected/profile/Reposts";
+import SinglePost from "./pages/Protected/SinglePost";
 
 const App = () => {
   return (
@@ -16,8 +21,13 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="" element={<Home />} />
-              <Route path="post/:id" element={<h1>Single post</h1>} />
+              <Route path="post/:id" element={<SinglePost/>} />
               <Route path="search" element={<Search />} />
+              <Route path="profile" element={<ProfileLayout />} >
+                 <Route path="threads/:id" element={<Threads/>}/>
+                 <Route path="replies/:id" element={<Replies/>}/>
+                 <Route path="reposts/:id" element={<Reposts/>}/>
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>
