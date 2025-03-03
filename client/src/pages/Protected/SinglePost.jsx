@@ -1,8 +1,12 @@
 import { Stack, TextField } from '@mui/material'
 import Post from "../../components/home/Post"
 import Comments from '../../components/home/post/Comments'
+import { useState } from 'react'
 
 const SinglePost = () => {
+
+  const [comment,setComment] = useState("");
+
   return (
     <>
     <Stack flexDirection={"column"} my={5} gap={2}>
@@ -20,7 +24,10 @@ const SinglePost = () => {
             mx:"auto",
             my: 5,
             p: 1
-        }}/>
+        }}
+        value={comment}
+        onChange={(e)=>setComment(e.target.value)}
+        />
     </Stack>
     </>
   )

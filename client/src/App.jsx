@@ -29,6 +29,7 @@ const App = () => {
                  <Route path="reposts/:id" element={<Reposts/>}/>
               </Route>
             </Route>
+            <Route path="/register" element={<Register/>} />
           </Routes>
         </BrowserRouter>
       </Box>
