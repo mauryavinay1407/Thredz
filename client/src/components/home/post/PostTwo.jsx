@@ -1,4 +1,4 @@
-import { Stack, Typography, useMediaQuery } from "@mui/material";
+import { Menu, MenuItem, Stack, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
 import { FaRegComment, FaRegHeart, FaRetweet } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
@@ -9,6 +9,11 @@ const PostTwo = () => {
     const _400 = useMediaQuery("(min-width: 400px)");
     const _500 = useMediaQuery("(min-width: 500px)");
     const _700 = useMediaQuery("(min-width: 700px)");
+
+    const handleDeleteComment = () => {};
+
+    const handleClose = () => {};
+
     return (
         <>
             <Stack flexDirection={"column"} justifyContent={"space-between"}>
@@ -21,22 +26,22 @@ const PostTwo = () => {
                         >
                             Linus Torwalds
                         </Typography>
-                        <Link to={"/post/2"}>
-                        <Typography
-                            variant="h5"
-                            fontSize={
-                                _700
-                                ? "1.2rem"
-                                    : _400
-                                    ? "1rem"
-                                    : _300
-                                    ? "0.9rem"
-                                    : "0.8"
-                                  }
-                                  >
-                            I'm the founder of Linux.
-                        </Typography>
-                      </Link>
+                        <Link to={"/post/2"} className="link">
+                            <Typography
+                                variant="h5"
+                                fontSize={
+                                    _700
+                                        ? "1.2rem"
+                                        : _400
+                                        ? "1rem"
+                                        : _300
+                                        ? "0.9rem"
+                                        : "0.8"
+                                }
+                            >
+                                I'm the founder of Linux.
+                            </Typography>
+                        </Link>
                     </Stack>
                     <img
                         src="/error-bg.png"
@@ -74,7 +79,7 @@ const PostTwo = () => {
                             variant="caption"
                             color={"GrayText"}
                             fontSize={_700 ? "1.1rem" : "1rem"}
-                            >
+                        >
                             2 likes .
                         </Typography>
                         <Typography
@@ -87,6 +92,15 @@ const PostTwo = () => {
                     </Stack>
                 </Stack>
             </Stack>
+            <Menu
+                anchorEl={""}
+                open={true}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <MenuItem onClick={handleDeleteComment}>Delete </MenuItem>
+            </Menu>
         </>
     );
 };

@@ -29,7 +29,7 @@ const Error = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => navigate('/')} // Navigate to the home page
+              onClick={() => navigate(-1)} // Navigate to the page where user was in last
               sx={{ textTransform: 'none', fontSize: '1rem' }}
             >
               Go Back to Home
