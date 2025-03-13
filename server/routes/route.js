@@ -18,6 +18,7 @@ const {
     repost,
     singlePost,
 } = require("../controllers/post.controller");
+const { addComment, deleteComment } = require("../controllers/comment.controller");
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -40,5 +41,8 @@ router.delete("/post/:id", auth, deletePost);
 router.put("/post/like/:id", auth, likePost);
 router.put("/repost/:id", auth, repost);
 router.get("/post/:id", auth, singlePost);
+
+router.post("/comment/:id", auth, addComment);
+router.delete("/comment/:postId/:id", auth, deleteComment);
 
 module.exports = router;

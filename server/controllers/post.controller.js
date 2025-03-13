@@ -109,7 +109,7 @@ const deletePost = async (req, res) => {
         await Comment.deleteMany({ _id: { $in: postExists.comments } });
         await User.updateMany(
             {
-                $or: [{ threads: id }, { replies: id }, { reposts, id }],
+                $or: [{ threads: id }, { replies: id }, { reposts: id }],
             },
             {
                 $pull: {

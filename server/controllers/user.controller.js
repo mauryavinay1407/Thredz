@@ -225,8 +225,8 @@ const updateProfile = async (req, res) => {
                     { new: true }
                 );
             }
+            res.status(201).json({ msg: "Profile updated successfully !" });
         });
-        res.status(201).json({ msg: "Profile updated successfully !" });
     } catch (err) {
         res.status(400).json({
             msg: "Error in updateProfile !",
