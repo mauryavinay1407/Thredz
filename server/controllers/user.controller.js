@@ -1,8 +1,8 @@
-const User = require("../models/user.model");
+const {User} = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const formidable = require("formidable");
-const cloudinary = require("../config/cloudinary");
+const {cloudinary} = require("../config/cloudinary");
 
 const signin = async (req, res) => {
     try {
