@@ -1,8 +1,19 @@
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Menu, MenuItem, Stack, Typography, useMediaQuery } from "@mui/material";
+import { useState } from "react";
 import { IoIosMore } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const Comments = () => {
-  const _700 = useMediaQuery("(min-width: 700px)");
+    const _700 = useMediaQuery("(min-width: 700px)");
+
+    const [anchorEl,setAnchorEl] = useState(null);
+
+    const { darkMode } = useSelector((state) => state.service);
+
+    const handleClose = ()=>{
+        setAnchorEl(null);
+    }
+    const handleDeleteComment = ()=>{}
 
     return (
         <>
@@ -34,13 +45,22 @@ const Comments = () => {
                     flexDirection={"row"}
                     gap={1}
                     alignItems={"center"}
-                    color={"GrayText"}
+                    color={darkMode ? "white" : "GrayText"}
                     fontSize={"0.9rem"}
                 >
                     <p>24min</p>
-                    <IoIosMore size={_700 ? 28 : 20} />
+                    <IoIosMore size={_700 ? 28 : 20} onClick={(e)=>setAnchorEl(e.currentTarget)} className="image-icon"/>
                 </Stack>
             </Stack>
+            <Menu
+                anchorEl={anchorEl}
+                open={anchorEl !== null}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <MenuItem onClick={handleDeleteComment}>Delete</MenuItem>
+            </Menu>
         </>
     );
 };

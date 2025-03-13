@@ -13,6 +13,8 @@ import { useRef, useState } from "react";
 import { FaImages } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
+import {useDispatch, useSelector} from "react-redux";
+import { addPostModal } from "../../redux/slice";
 
 const AddPost = () => {
     const _300 = useMediaQuery("(min-width: 300px)");
@@ -22,10 +24,14 @@ const AddPost = () => {
     const [text, setText] = useState();
     const [media, setMedia] = useState(null);
 
+    const dispatch = useDispatch();
+
+    const {opneAddPostModal} = useSelector((state) => state.service);
+
     const mediaRef = useRef();
 
     const handleClose = () => {
-        console.log("Closing...");
+        dispatch(addPostModal(false));
     };
 
     const handlePost = () => {};
@@ -37,7 +43,7 @@ const AddPost = () => {
     return (
         <>
             <Dialog
-                open={true}
+                open={opneAddPostModal}
                 onClose={handleClose}
                 fullWidth
                 fullScreen={_700 ? false : true}

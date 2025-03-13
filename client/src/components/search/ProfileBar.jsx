@@ -1,8 +1,11 @@
 import { Avatar, Button, Stack, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const ProfileBar = () => {
   const _700 = useMediaQuery("(min-width: 700px)");
+
+  const { darkMode } = useSelector((state) => state.service);
 
   return (
     <>
@@ -28,7 +31,7 @@ const ProfileBar = () => {
               variant="h6"
               fontWeight={"bold"}
               fontSize={_700 ? "1rem" : "0.9rem"}
-              color="black"
+              color={darkMode ? "whitesmoke" : "black"}
             >
               John Doe
             </Typography>

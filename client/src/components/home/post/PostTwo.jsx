@@ -2,6 +2,7 @@ import { Menu, MenuItem, Stack, Typography, useMediaQuery } from "@mui/material"
 import React from "react";
 import { FaRegComment, FaRegHeart, FaRetweet } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const PostTwo = () => {
@@ -9,6 +10,8 @@ const PostTwo = () => {
     const _400 = useMediaQuery("(min-width: 400px)");
     const _500 = useMediaQuery("(min-width: 500px)");
     const _700 = useMediaQuery("(min-width: 700px)");
+
+    const { darkMode } = useSelector((state) => state.service);
 
     const handleDeleteComment = () => {};
 
@@ -38,6 +41,7 @@ const PostTwo = () => {
                                         ? "0.9rem"
                                         : "0.8"
                                 }
+                                className = {darkMode && "dark-mode"}
                             >
                                 I'm the founder of Linux.
                             </Typography>
@@ -77,14 +81,14 @@ const PostTwo = () => {
                     >
                         <Typography
                             variant="caption"
-                            color={"GrayText"}
+                            color={darkMode ? "white":"GrayText"}
                             fontSize={_700 ? "1.1rem" : "1rem"}
                         >
                             2 likes .
                         </Typography>
                         <Typography
                             variant="caption"
-                            color={"GrayText"}
+                            color={darkMode ? "white":"GrayText"}
                             fontSize={_700 ? "1.1rem" : "1rem"}
                         >
                             1 comments .
@@ -92,15 +96,6 @@ const PostTwo = () => {
                     </Stack>
                 </Stack>
             </Stack>
-            <Menu
-                anchorEl={""}
-                open={true}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                transformOrigin={{ vertical: "top", horizontal: "right" }}
-            >
-                <MenuItem onClick={handleDeleteComment}>Delete </MenuItem>
-            </Menu>
         </>
     );
 };

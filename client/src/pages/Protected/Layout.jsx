@@ -5,6 +5,7 @@ import Header from "../../components/common/Header";
 import AddPost from "../../components/modals/AddPost";
 import EditProfile from "../../components/modals/EditProfile";
 import MainMenu from "../../components/menu/MainMenu";
+import MyMenu from "../../components/menu/MyMenu";
 
 const Layout = () => {
 
@@ -19,9 +20,10 @@ const Layout = () => {
       overflow={"hidden"}
     >
       <Header />
-      {/* <AddPost /> */}
-      {/* <EditProfile/> */}
-      {/* <MainMenu/> */}
+      <AddPost />
+      <EditProfile/>
+      <MainMenu/>
+      <MyMenu/>
       <Outlet></Outlet>
     </Stack>
   );

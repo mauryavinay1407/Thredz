@@ -23,27 +23,12 @@ const App = () => {
                         {data ? (
                             <Route path="/" element={<Layout />}>
                                 <Route path="" element={<Home />} />
-                                <Route
-                                    path="post/:id"
-                                    element={<SinglePost />}
-                                />
+                                <Route path="post/:id" element={<SinglePost />}/>
                                 <Route path="search" element={<Search />} />
-                                <Route
-                                    path="profile"
-                                    element={<ProfileLayout />}
-                                >
-                                    <Route
-                                        path="threads/:id"
-                                        element={<Threads />}
-                                    />
-                                    <Route
-                                        path="replies/:id"
-                                        element={<Replies />}
-                                    />
-                                    <Route
-                                        path="reposts/:id"
-                                        element={<Reposts />}
-                                    />
+                                <Route path="profile" element={<ProfileLayout />}>
+                                    <Route path="threads/:id" element={<Threads />}/>
+                                    <Route path="replies/:id" element={<Replies />}/>
+                                    <Route path="reposts/:id" element={<Reposts />}/>
                                 </Route>
                             </Route>
                         ) : (

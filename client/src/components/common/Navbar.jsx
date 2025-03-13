@@ -7,9 +7,18 @@ import { RxAvatar } from "react-icons/rx";
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import {useDispatch, useSelector} from "react-redux";
+import { addPostModal } from "../../redux/slice";
 
 const Navbar = () => {
     const _300 = useMediaQuery("(min-width: 300px)");
+
+    const dispatch = useDispatch();
+    const {darkMode} = useSelector((state)=> state.service);
+
+    const handleAddPost = ()=>{
+        dispatch(addPostModal(true));
+    }
 
     return (
         <>
@@ -21,20 +30,23 @@ const Navbar = () => {
                 <FaArrowLeft
                     size={_300 ? 32 : 24}
                     className="image-icon"
-                    color="black"
+                    color={darkMode ? "white" :"black"}
                 />
                 <Link to={"/"} className="link">
-                    <GoHome size={_300 ? 32 : 24} />
+                    <GoHome size={_300 ? 32 : 24}  color={darkMode ? "white" :"black"}/>
                 </Link>
-                <Link to={"/search"} className="link" color="black">
-                    <IoIosSearch size={_300 ? 32 : 24} />
+                <Link to={"/search"} className="link" >
+                    <IoIosSearch size={_300 ? 32 : 24} color={darkMode ? "white" :"black"}/>
                 </Link>
-                {/* <Link to={"/edit"} className="link"> */}
-                    <TbEdit size={_300 ? 32 : 24} className="image-icon" color="black"/>
-                {/* </Link> */}
-                <CiHeart size={_300 ? 32 : 24} color="black"/>
+                <TbEdit
+                    size={_300 ? 32 : 24}
+                    className="image-icon"
+                    color={darkMode ? "white" :"black"}
+                    onClick={handleAddPost}
+                />
+                <CiHeart size={_300 ? 32 : 24} color={darkMode ? "white" :"black"} />
                 <Link to={"/profile/threads/1"} className="link">
-                    <RxAvatar size={_300 ? 32 : 24} color="black"/>
+                    <RxAvatar size={_300 ? 32 : 24} color={darkMode ? "white" :"black"}/>
                 </Link>
             </Stack>
         </>

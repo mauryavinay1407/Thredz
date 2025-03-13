@@ -30,7 +30,7 @@
 #url-img {
     margin: 0 0 10px;
 }
-.mode {
+.dark-mode {
     color: whitesmoke;
     background-color: rgb(18, 18, 18);
 }
@@ -39,3 +39,4 @@
   display: flex;
   justify-content: space-between;
 }
+
