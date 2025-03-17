@@ -52,7 +52,7 @@ const Postone = () => {
           <AvatarGroup
             total={3}
             sx={{
-              "& .MuiAvatar-r": {
+              "& .MuiAvatar-root": {
                 width: _700 ? 24 : 16,
                 height: _700 ? 24 : 16,
                 fontSize: _700 ? 12 : 8,

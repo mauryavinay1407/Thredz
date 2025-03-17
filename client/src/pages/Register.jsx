@@ -1,34 +1,56 @@
-import React, { useState } from "react";
-import { Button, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+    Button,
+    Stack,
+    TextField,
+    Typography,
+    useMediaQuery,
+} from "@mui/material";
+import { useLoginMutation, useSigninMutation } from "../redux/service";
 
 const Register = () => {
-    const _700 = useMediaQuery("(min-width:700px)");
+    const _700 = useMediaQuery("(min-width: 700px)");
 
     const [login, setLogin] = useState(false);
-    const [username, setUsername] = useState("");
+    const [userName, setuserName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [userData,setUserData] = useState({});
+
+
+    const [signinUser,signinUserData] = useSigninMutation();
+    const [loginUser,loginUserData] = useLoginMutation();
 
     const loginToggle = () => {
         setLogin(!login);
     };
 
-    const handleLogin = () =>{
-      setUserData({
-        email,
-        password
-      })
-      console.log(userData);
-    }
-    const handleRegister = () =>{
-      setUserData({
-        username,
-        email,
-        password
-      })
-      console.log(userData);
-    }
+    const handleLogin = async() => {
+        const data = {
+            email,
+            password,
+        };
+        console.log(data);
+        await loginUser(data);
+    };
+    const handleRegister = async() => {
+        const data = {
+            userName,
+            email,
+            password,
+        };
+        console.log(data);
+        await signinUser(data);
+    };
+
+
+    useEffect(()=>{
+        if(signinUserData.isSuccess){
+            console.log(signinUserData.data);
+        }
+        if(loginUserData.isSuccess){
+            console.log(loginUserData.data);
+        }
+    },[signinUserData.isSuccess,loginUserData.isSuccess])
 
     return (
         <>
@@ -38,13 +60,21 @@ const Register = () => {
                 flexDirection={"row"}
                 justifyContent={"center"}
                 alignItems={"center"}
-                sx={_700 && {
-                  backgroundImage: 'url("/register-bg.webp")',
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "100% 600px",
-              }}
+                sx={
+                    _700 ? {
+                        backgroundImage: 'url("/register-bg.webp")',
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "100% 600px",
+                    }
+                    : undefined
+                }
             >
-                <Stack flexDirection={"column"} width={_700 ? "40%" : "90%"} gap={2} mt={_700 && 20}>
+                <Stack
+                    flexDirection={"column"}
+                    width={_700 ? "40%" : "90%"}
+                    gap={2}
+                    mt={_700 ? 20 : 0}
+                >
                     <Typography
                         variant="h5"
                         fontSize={_700 ? "1.5rem" : "1rem"}
@@ -56,28 +86,28 @@ const Register = () => {
                     {!login && (
                         <TextField
                             variant="outlined"
-                            placeholder="Enter your username..."
-                            value={username}
-                            onChange={(e)=>setUsername(e.target.value)}
+                            placeholder="Enter your userName..."
+                            value={userName}
+                            onChange={(e) => setuserName(e.target.value)}
                         />
                     )}
                     <TextField
                         variant="outlined"
                         placeholder="Enter your Email..."
                         value={email}
-                        onChange={(e)=>setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
                         placeholder="Enter your Password..."
                         value={password}
-                        onChange={(e)=>setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button
                         size="large"
                         sx={{
                             width: "100%",
-                            height: "52",
+                            height: 52,
                             bgcolor: "green",
                             color: "white",
                             fontSize: "1rem",

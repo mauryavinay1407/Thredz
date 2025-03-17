@@ -1,8 +1,8 @@
-const {User} = require("../models/user.model");
+const { User } = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const formidable = require("formidable");
-const {cloudinary} = require("../config/cloudinary");
+const { cloudinary } = require("../config/cloudinary");
 
 const signin = async (req, res) => {
     try {
@@ -51,7 +51,7 @@ const signin = async (req, res) => {
             partitioned: true,
         });
         res.status(201).json({
-            msg: `User Signed in successfully ! hello ${result?.userName}`,
+            msg: `User Registered in successfully ! hello ${result?.userName}`,
         });
     } catch (err) {
         res.status(400).json({ msg: "Error in signin !", err: err.message });
@@ -256,8 +256,11 @@ const searchUser = async (req, res) => {
 const logout = async (req, res) => {
     try {
         const options = {
+            maxAge: 0,
             httpOnly: true,
-            secure: false,
+            sameSite: "none",
+            secure: true,
+            partitioned: true,
         };
         res.status(200).clearCookie("token", options).json({
             msg: "logged out successfully",
@@ -268,11 +271,11 @@ const logout = async (req, res) => {
 };
 
 const myInfo = async (req, res) => {
-  try {
-    res.status(200).json({ me: req.user });
-  } catch (err) {
-    res.status(400).json({ msg: "Error in myInfo !" });
-  }
+    try {
+        res.status(200).json({ me: req.user });
+    } catch (err) {
+        res.status(400).json({ msg: "Error in myInfo !" });
+    }
 };
 
 module.exports = {
@@ -283,5 +286,5 @@ module.exports = {
     updateProfile,
     searchUser,
     logout,
-    myInfo
+    myInfo,
 };

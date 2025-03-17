@@ -9,11 +9,11 @@ const Header = () => {
     const _700 = useMediaQuery("(min-width: 700px)");
 
     const dispatch = useDispatch();
-    const {darkMode} = useSelector((state)=> state.service)
+    const { darkMode } = useSelector((state) => state.service);
 
-    const handleMainMenu = (e)=>{
+    const handleMainMenu = (e) => {
         dispatch(toggleMainMenu(e.currentTarget));
-    }
+    };
     return (
         <>
             {_700 ? (
@@ -26,22 +26,36 @@ const Header = () => {
                     top={0}
                     py={1}
                 >
-                    <img
-                        src="/Threads-logo-black-bg.webp"
-                        alt="logo"
-                        width={60}
-                        height={48}
-                    />
+                    {darkMode ? (
+                        <img
+                            src="/Threads-logo-black-bg.webp"
+                            alt="logo"
+                            width={60}
+                            height={50}
+                        />
+                    ) : (
+                        <img
+                            src="/Threads-logo-white-bg.png"
+                            alt="logo"
+                            width={60}
+                            height={35}
+                        />
+                    )}
                     <Stack
                         justifyContent={"center"}
                         width={"550px"}
-                        bgcolor={"aliceblue"}
+                        bgcolor={darkMode ? "" : "aliceblue"}
                         zIndex={2}
                         height={96}
                     >
                         <Navbar />
                     </Stack>
-                    <IoMenu size={36} className="image-icon" color="gray" />
+                    <IoMenu
+                        size={36}
+                        className="image-icon"
+                        color="gray"
+                        onClick={handleMainMenu}
+                    />
                 </Stack>
             ) : (
                 <>
@@ -52,7 +66,7 @@ const Header = () => {
                         width={"100%"}
                         height={52}
                         p={1}
-                        bgcolor={"aliceblue"}
+                        bgcolor={darkMode ? "gray" : "aliceblue"}
                         zIndex={2}
                     >
                         <Navbar />
@@ -65,23 +79,28 @@ const Header = () => {
                         p={1}
                     >
                         <Grid item xs={6}>
-                            {
-                                darkMode ? 
+                            {darkMode ? (
                                 <img
-                                src="/Threads-logo-black-bg.webp"
-                                alt="logo"
-                                width={60}
-                                height={35}
-                            /> :
-                            <img
-                                src="/Threads-logo-white-bg.png"
-                                alt="logo"
-                                width={60}
-                                height={35}
-                            />
-                            }
+                                    src="/Threads-logo-black-bg.webp"
+                                    alt="logo"
+                                    width={60}
+                                    height={35}
+                                />
+                            ) : (
+                                <img
+                                    src="/Threads-logo-white-bg.png"
+                                    alt="logo"
+                                    width={60}
+                                    height={35}
+                                />
+                            )}
                         </Grid>
-                        <IoMenu size={36} className="image-icon" color="gray" onClick={handleMainMenu} />
+                        <IoMenu
+                            size={36}
+                            className="image-icon"
+                            color="gray"
+                            onClick={handleMainMenu}
+                        />
                     </Grid>
                 </>
             )}
