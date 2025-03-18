@@ -41,8 +41,6 @@ export const serviceApi = createApi({
             async onQueryStarted(params, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log(data);
-                    
                     dispatch(addMyInfo(data));
                 } catch (error) {
                     console.log(error);

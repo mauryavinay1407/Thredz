@@ -95,6 +95,7 @@ export const {
     addSingle,
     addToAllPost,
     deleteThePost,
+    addPostId,
     addToSearchedUsers,
 } = serviceSlice.actions;
 

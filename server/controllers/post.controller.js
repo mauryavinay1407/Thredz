@@ -213,13 +213,14 @@ const singlePost = async (req, res) => {
             })
             .populate({
                 path: "comments",
+                select: "updatedAt",
                 populate: {
                     path: "admin",
                     model: "user",
                 },
             });
         res.status(200).json({ msg: "Post Fetched !", post });
-    } catch (error) {
+    } catch (err) {
         res.status(400).json({
             msg: "Error in singlePost !",
             err: err.message,

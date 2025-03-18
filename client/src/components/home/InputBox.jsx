@@ -1,10 +1,12 @@
 import { Avatar, Button, Stack, Typography } from "@mui/material";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { addPostModal } from "../../redux/slice";
 
 const InputBox = () => {
 
   const dispatch = useDispatch();
+
+  const {myInfo} = useSelector(state => state.service);
 
   const handleAddPost = ()=>{
     dispatch(addPostModal(true));
@@ -25,7 +27,7 @@ const InputBox = () => {
         onClick = {handleAddPost}
       >
         <Stack flexDirection={"row"} alignItems={"center"} gap={2}>
-          <Avatar src="" alt="avt" />
+          <Avatar src={myInfo? myInfo.profilePic : ""} alt={myInfo? myInfo.userName : ""} />
           <Typography color={"GrayText"}> Start a thread...</Typography>
         </Stack>
         <Button

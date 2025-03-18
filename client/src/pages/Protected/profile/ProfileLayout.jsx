@@ -1,8 +1,9 @@
 import { Avatar, Button, Chip, Stack, Typography, useMediaQuery } from "@mui/material";
 import { FaInstagram } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {editProfileModal} from '../../../redux/slice';
+import { useUserDetailsQuery } from "../../../redux/service";
 
 const ProfileLayout = () => {
 
@@ -12,6 +13,10 @@ const ProfileLayout = () => {
 
     const dispatch = useDispatch();
 
+    const params = useParams();
+
+    const {data} = useUserDetailsQuery(params.id);
+    console.log(data);
     const handleEditModal = ()=>{
         dispatch(editProfileModal(true));
     }

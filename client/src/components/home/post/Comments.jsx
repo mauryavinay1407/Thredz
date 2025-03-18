@@ -1,19 +1,83 @@
-import { Avatar, Menu, MenuItem, Stack, Typography, useMediaQuery } from "@mui/material";
-import { useState } from "react";
+import {
+    Avatar,
+    Menu,
+    MenuItem,
+    Stack,
+    Typography,
+    useMediaQuery,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { useSelector } from "react-redux";
+import {
+    useDeleteCommentMutation,
+    useSinglePostQuery,
+} from "../../../redux/service";
+import moment from "moment";
 
-const Comments = () => {
+const Comments = ({ e, postId }) => {
     const _700 = useMediaQuery("(min-width: 700px)");
 
-    const [anchorEl,setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [isAdmin, setIsAdmin] = useState();
 
-    const { darkMode } = useSelector((state) => state.service);
+    const { darkMode, myInfo } = useSelector((state) => state.service);
 
-    const handleClose = ()=>{
+    const [deleteComment, deleteCommentData] = useDeleteCommentMutation();
+
+    const { refetch } = useSinglePostQuery(postId);
+
+    const handleClose = () => {
         setAnchorEl(null);
-    }
-    const handleDeleteComment = ()=>{}
+    };
+    const handleDeleteComment = async () => {
+        const info = {
+            postId,
+            id: e?._id,
+        };
+        await deleteComment(info);
+        handleClose();
+        refetch();
+    };
+
+    const checkIsAdmin = () => {
+        if (e && myInfo) {
+            if (e.admin._id === myInfo._id) {
+                setIsAdmin(true);
+                return;
+            }
+        }
+        setIsAdmin(false);
+    };
+
+    const getCommentTime = (createdAt) => {
+        const duration = moment.duration(moment().diff(moment(createdAt)));
+
+        if (duration.asMinutes() < 1) return "Just now";
+        if (duration.asMinutes() < 60)
+            return `${Math.floor(duration.asMinutes())}min`;
+        if (duration.asHours() < 24)
+            return `${Math.floor(duration.asHours())}h`;
+        if (duration.asDays() < 7)
+            return `${Math.floor(duration.asDays())}days`;
+        if (duration.asWeeks() < 4) return `${Math.floor(duration.asWeeks())}w`;
+        if (duration.asMonths() < 12)
+            return `${Math.floor(duration.asMonths())}mo`;
+        return `${Math.floor(duration.asYears())}y`;
+    };
+
+    useEffect(() => {
+        checkIsAdmin();
+    }, []);
+
+    useEffect(() => {
+        if (deleteCommentData.isSuccess) {
+            console.log(deleteCommentData.data);
+        }
+        if (deleteCommentData.isError) {
+            console.log(deleteCommentData.error.data);
+        }
+    }, [deleteCommentData.isSuccess, deleteCommentData.isError]);
 
     return (
         <>
@@ -27,17 +91,20 @@ const Comments = () => {
                 width={"90%"}
             >
                 <Stack flexDirection={"row"} gap={_700 ? 2 : 1}>
-                    <Avatar src="" alt="" />
+                    <Avatar
+                        src={e ? e.admin.profilePic : ""}
+                        alt={e ? e.admin.userName : ""}
+                    />
                     <Stack flexDirection={"column"}>
                         <Typography
                             variant="h6"
                             fontWeight={"bold"}
                             fontSize={"0.9rem"}
                         >
-                            John_Doe_220
+                            {e ? e.admin.userName : ""}
                         </Typography>
                         <Typography variant="subtitle2" fontSize={"0.9rem"}>
-                            looking good
+                            {e ? e.text : ""}
                         </Typography>
                     </Stack>
                 </Stack>
@@ -48,8 +115,19 @@ const Comments = () => {
                     color={darkMode ? "white" : "GrayText"}
                     fontSize={"0.9rem"}
                 >
-                    <p>24min</p>
-                    <IoIosMore size={_700 ? 28 : 20} onClick={(e)=>setAnchorEl(e.currentTarget)} className="image-icon"/>
+                    <p>{e ? `${getCommentTime(e.createdAt)}` : ""}</p>
+                    {isAdmin ? (
+                        <IoIosMore
+                            size={_700 ? 28 : 20}
+                            className="image-icon"
+                            onClick={(e) => setAnchorEl(e.currentTarget)}
+                        />
+                    ) : (
+                        <IoIosMore
+                            size={_700 ? 28 : 20}
+                            className="image-icon"
+                        />
+                    )}
                 </Stack>
             </Stack>
             <Menu
