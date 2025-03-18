@@ -66,7 +66,9 @@ const Header = () => {
                         width={"100%"}
                         height={52}
                         p={1}
-                        bgcolor={darkMode ? "gray" : "aliceblue"}
+                        sx={{
+                            backgroundColor: darkMode ? "#3c423e" : "#f0f8ff"
+                        }}
                         zIndex={2}
                     >
                         <Navbar />
@@ -81,7 +83,7 @@ const Header = () => {
                         <Grid item xs={6}>
                             {darkMode ? (
                                 <img
-                                    src="/Threads-logo-black-bg.webp"
+                                    src="/Threads-logo-black-bg.png"
                                     alt="logo"
                                     width={60}
                                     height={35}

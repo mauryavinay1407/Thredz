@@ -2,7 +2,7 @@ import { Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { FaUser } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addMyInfo, toggleDarkMode, toggleMainMenu } from "../../redux/slice";
 import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
@@ -12,9 +12,10 @@ import { useEffect } from "react";
 const MainMenu = () => {
     
     const dispatch = useDispatch();
-    const {anchorE1, darkMode} = useSelector((state)=> state.service||{});
+    const {anchorE1, darkMode, myInfo} = useSelector((state)=> state.service||{});
 
     const [logoutMe, logoutMeData] = useLogoutMeMutation();
+    const navigate = useNavigate();
     
     const handleClose = () => {
         dispatch(toggleMainMenu(null));
@@ -50,7 +51,7 @@ const MainMenu = () => {
                     alignItems: "center",
                     gap: 1
                 }}>{darkMode ? <CiLight size={18} style={{ verticalAlign: "middle" }}/> : <MdDarkMode size={18} style={{ verticalAlign: "middle" }}/>} <span>{darkMode ? "Light" : "Dark" }</span></MenuItem>
-                <Link to={`/profile/threads/2`} className="link">
+                <Link to={`/profile/threads/${myInfo?._id}`} className="link">
                     <MenuItem sx={{
                         display: "flex",
                         alignItems: "center",

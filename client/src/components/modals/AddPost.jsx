@@ -9,12 +9,14 @@ import {
     Typography,
     useMediaQuery,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaImages } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { MdDelete } from "react-icons/md";
 import {useDispatch, useSelector} from "react-redux";
 import { addPostModal } from "../../redux/slice";
+import { useAddPostMutation } from "../../redux/service";
+import Loading from "../common/Loading";
 
 const AddPost = () => {
     const _300 = useMediaQuery("(min-width: 300px)");
@@ -26,7 +28,9 @@ const AddPost = () => {
 
     const dispatch = useDispatch();
 
-    const {opneAddPostModal} = useSelector((state) => state.service);
+    const {opneAddPostModal,myInfo} = useSelector((state) => state.service);
+
+    const [addNewPost,addNewPostData] = useAddPostMutation();
 
     const mediaRef = useRef();
 
@@ -34,11 +38,32 @@ const AddPost = () => {
         dispatch(addPostModal(false));
     };
 
-    const handlePost = () => {};
+    const handlePost = async () => {
+        const data = new FormData();
+        if (text) {
+          data.append("text", text);
+        }
+        if (media) {
+          data.append("media", media);
+        }
+        await addNewPost(data);
+      };
 
     const handleMediaRef = () => {
         mediaRef.current.click();
     };
+
+    useEffect(()=>{
+            if(addNewPostData.isSuccess){
+                setText();
+                setMedia(null);
+                dispatch(addPostModal(false));
+                console.log(addNewPostData.data);
+            }
+            if(addNewPostData.isError){
+                console.log(addNewPostData.error.data);
+            }
+        },[addNewPostData.isSuccess,addNewPostData.isError]);
 
     return (
         <>
@@ -48,6 +73,15 @@ const AddPost = () => {
                 fullWidth
                 fullScreen={_700 ? false : true}
             >
+            {
+                addNewPostData?.isLoading ? 
+                (
+                    <Stack height={'60vh'}>
+                        <Loading/>
+                    </Stack>
+                ) : 
+                (
+                <>
                 <Box
                     position={"absolute"}
                     top={20}
@@ -61,14 +95,14 @@ const AddPost = () => {
                 </DialogTitle>
                 <DialogContent>
                     <Stack flexDirection={"row"} gap={2} mb={5}>
-                        <Avatar src="" alt="" />
+                        <Avatar src={myInfo ? myInfo?.profilePic : ""} alt={myInfo ? myInfo?.userName : ""} />
                         <Stack>
                             <Typography
                                 variant="h6"
                                 fontWeight={"bold"}
                                 fontSize={"1rem"}
                             >
-                                JohnDOe123
+                                {myInfo ? myInfo?.userName : ""}
                             </Typography>
                             <textarea
                                 cols={_500 ? 40 : 25}
@@ -136,6 +170,8 @@ const AddPost = () => {
                         </Button>
                     </Stack>
                 </DialogContent>
+                </>
+                )}
             </Dialog>
         </>
     );

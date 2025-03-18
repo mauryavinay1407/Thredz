@@ -213,7 +213,6 @@ const singlePost = async (req, res) => {
             })
             .populate({
                 path: "comments",
-                select: "updatedAt",
                 populate: {
                     path: "admin",
                     model: "user",

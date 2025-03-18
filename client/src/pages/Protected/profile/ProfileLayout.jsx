@@ -15,8 +15,8 @@ const ProfileLayout = () => {
 
     const params = useParams();
 
-    const {data} = useUserDetailsQuery(params.id);
-    console.log(data);
+    const {data} = useUserDetailsQuery(params?.id);
+    
     const handleEditModal = ()=>{
         dispatch(editProfileModal(true));
     }
