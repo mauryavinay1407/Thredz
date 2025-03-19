@@ -10,7 +10,7 @@ import {
 export const serviceApi = createApi({
     reducerPath: "serviceApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/api/",
+        baseUrl: "http://localhost:4000/api/",
         credentials: "include",
     }),
     keepUnusedDataFor: 60 * 60 * 24 * 7,
@@ -71,9 +71,16 @@ export const serviceApi = createApi({
         }),
         searchUsers: builder.query({
             query: (query) => ({
-                url: `user/search/${query}`,
+                url: `users/search/${query}`,
                 method: "GET",
             }),
+        }),
+        followUser: builder.mutation({
+            query: (id) => ({
+                url: `user/follow/${id}`,
+                method: "PUT",
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: "User", id }],
         }),
         updateProfile: builder.mutation({
             query: (data) => ({

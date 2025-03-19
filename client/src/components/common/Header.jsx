@@ -28,7 +28,7 @@ const Header = () => {
                 >
                     {darkMode ? (
                         <img
-                            src="/Threads-logo-black-bg.webp"
+                            src="/Threads-logo-black-bg.png"
                             alt="logo"
                             width={60}
                             height={50}

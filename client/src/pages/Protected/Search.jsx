@@ -16,6 +16,10 @@ const Search = () => {
                 mb={5}
                 width={"60%"}
                 mx={"auto"}
+                sx={{
+                    width: "90%",
+                    maxWidth: "750px",
+                }}
             >
                 {searchedUsers ? (
                     searchedUsers.length > 0 ? (
