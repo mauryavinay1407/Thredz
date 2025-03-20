@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLazySearchUsersQuery } from "../../redux/service";
 import { addToSearchedUsers } from "../../redux/slice";
 
-const SearchInput = () => {
+const   SearchInput = () => {
 
   const { darkMode } = useSelector((state) => state.service);
 
@@ -14,14 +14,16 @@ const SearchInput = () => {
 
   const dispatch = useDispatch();
 
-  const handleSearch = async(e)=>{
-    if (query.trim() && e.key === "Enter") {
-      const response = await searchUser(query);  
-      if (response.error) {
-        console.error(response.error);  
+  useEffect(()=>{
+    const fetchUsers = async()=>{
+      if (query.trim()) {
+        await searchUser(query);
+      } else {
+        dispatch(addToSearchedUsers([])); 
       }
     }
-  };
+    fetchUsers();
+  },[query])
 
   useEffect(()=>{
     if(searchUserData.isSuccess){
@@ -60,8 +62,8 @@ const SearchInput = () => {
             </InputAdornment>
           ),
         }}
+        value={query}
         onChange={(e)=>setQuery(e.target.value)}
-        onKeyUp={handleSearch}
       />
     </>
   );

@@ -4,6 +4,7 @@ import InputBox from "../../components/home/InputBox";
 import Post from "../../components/home/Post";
 import { useAllPostQuery } from "../../redux/service";
 import { useSelector } from "react-redux";
+import Loading from "../../components/common/Loading";
 
 const Home = () => {
     const _700 = useMediaQuery("(min-width: 700px)");

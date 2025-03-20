@@ -16,6 +16,7 @@ import {
 } from "../../../redux/service";
 import { useEffect, useState } from "react";
 import EditProfile from "../../../components/modals/EditProfile";
+import { toast } from "sonner";
 
 const ProfileLayout = () => {
     const _300 = useMediaQuery("(min-width: 300px)");
@@ -67,10 +68,10 @@ const ProfileLayout = () => {
 
     useEffect(() => {
         if (followUserData.isSuccess) {
-            console.log(followUserData.data);
+            toast.success(followUserData.data?.msg);
         }
         if (followUserData.isError) {
-            console.log(followUserData.error.data);
+            toast.error(followUserData.error?.data?.msg);
         }
     }, [followUserData.isSuccess, followUserData.isError]);
 

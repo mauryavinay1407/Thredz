@@ -4,13 +4,18 @@ import Comments from "../../components/home/post/Comments";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAddCommentMutation, useSinglePostQuery } from "../../redux/service";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const SinglePost = () => {
     const [comment, setComment] = useState("");
 
     const params = useParams();
 
+    const { darkMode } = useSelector((state) => state.service);
+
     const { data, refetch } = useSinglePostQuery(params?.id);
+    const [addComment] = useAddCommentMutation();
 
     const handleAddComment = async (e) => {
         if (data && e.key === "Enter") {
@@ -18,22 +23,17 @@ const SinglePost = () => {
                 id: data.post._id,
                 text: comment,
             };
-            await addComment(info);
+            toast.promise(addComment(info), {
+                loading: "Adding comment...",
+                success: () => {
+                    setComment("");
+                    refetch();
+                    return "Comment added successfully";
+                },
+                error: "Failed to add comment",
+            });
         }
     };
-
-    const [ addComment, addCommentData ] = useAddCommentMutation();
-    
-    useEffect(() => {
-        if (addCommentData.isSuccess) {
-            setComment("");
-            refetch();
-            console.log(addCommentData.data);
-        }
-        if (addCommentData.isError) {
-            console.log(addCommentData.error.data);
-        }
-    }, [addCommentData.isSuccess, addCommentData.isError]);
 
     return (
         <>
@@ -69,6 +69,12 @@ const SinglePost = () => {
                         mx: "auto",
                         my: 5,
                         p: 1,
+                        "& .MuiOutlinedInput-root": {
+                            color: darkMode ? "whiteSmoke" : "black", 
+                            "& fieldset": {
+                                borderColor: darkMode ? "whiteSmoke" : "black", 
+                            },
+                        },
                     }}
                     onChange={(e) => setComment(e.target.value)}
                     onKeyUp={handleAddComment}

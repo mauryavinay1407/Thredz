@@ -91,8 +91,8 @@ export const serviceApi = createApi({
             invalidatesTags: ["Me"],
         }),
         addPost: builder.mutation({
-            query: () => ({
-                url: "post",
+            query: (data) => ({
+                url: `post`,
                 method: "POST",
                 body: data,
             }),

@@ -4,13 +4,14 @@ import { toggleMyMenu } from "../../redux/slice";
 import { MdDelete } from "react-icons/md";
 import { useDeletePostMutation } from "../../redux/service";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 const MyMenu = () => {
 
     const dispatch = useDispatch();
     const {anchorE2, postId} = useSelector((state) => state.service);
 
-    const [deletePost,deletePostData] = useDeletePostMutation();
+    const [deletePost] = useDeletePostMutation();
 
     const handleClose = ()=>{
         dispatch(toggleMyMenu(null));
@@ -18,17 +19,15 @@ const MyMenu = () => {
 
     const handleDeletePost = async()=>{
         handleClose();
-        await deletePost(postId);
+        toast.promise(
+            deletePost(postId),
+            {
+                loading: "Deleting post...",
+                success: "Post deleted successfully!",
+                error: (err) => err?.data?.message || "Failed to delete post",
+            }
+        );
     };
-
-    useEffect(()=>{
-        if(deletePostData.isSuccess){
-            console.log(deletePostData.data);
-        }
-        if(deletePostData.isError){
-            console.log(deletePost.error.data);
-        }
-    },[deletePostData.isSuccess,deletePostData.isError]);
 
     return (
         <>

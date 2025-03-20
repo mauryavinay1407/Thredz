@@ -14,6 +14,7 @@ import {
     useSinglePostQuery,
 } from "../../../redux/service";
 import moment from "moment";
+import { toast } from "sonner";
 
 const Comments = ({ e, postId }) => {
     const _700 = useMediaQuery("(min-width: 700px)");
@@ -23,7 +24,7 @@ const Comments = ({ e, postId }) => {
 
     const { darkMode, myInfo } = useSelector((state) => state.service);
 
-    const [deleteComment, deleteCommentData] = useDeleteCommentMutation();
+    const [deleteComment] = useDeleteCommentMutation();
 
     const { refetch } = useSinglePostQuery(postId);
 
@@ -35,9 +36,15 @@ const Comments = ({ e, postId }) => {
             postId,
             id: e?._id,
         };
-        await deleteComment(info);
+        toast.promise(deleteComment(info), {
+            loading: "Deleting comment...",
+            success: (data) => {
+                refetch();
+                return data.data.msg;
+            },
+            error: "Failed to delete comment",
+        });
         handleClose();
-        refetch();
     };
 
     const checkIsAdmin = () => {
@@ -70,14 +77,14 @@ const Comments = ({ e, postId }) => {
         checkIsAdmin();
     }, []);
 
-    useEffect(() => {
-        if (deleteCommentData.isSuccess) {
-            console.log(deleteCommentData.data);
-        }
-        if (deleteCommentData.isError) {
-            console.log(deleteCommentData.error.data);
-        }
-    }, [deleteCommentData.isSuccess, deleteCommentData.isError]);
+    // useEffect(() => {
+    //     if (deleteCommentData.isSuccess) {
+    //         toast.success(deleteCommentData.data.msg);
+    //     }
+    //     if (deleteCommentData.isError) {
+    //         toast.error(addNewPostData.error.data.msg);
+    //     }
+    // }, [deleteCommentData.isSuccess, deleteCommentData.isError]);
 
     return (
         <>

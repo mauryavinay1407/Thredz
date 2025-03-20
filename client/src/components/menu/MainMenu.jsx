@@ -1,13 +1,14 @@
-import { Menu, MenuItem, useMediaQuery } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import { FaUser } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { addMyInfo, toggleDarkMode, toggleMainMenu } from "../../redux/slice";
+import { Link } from "react-router-dom";
+import { toggleDarkMode, toggleMainMenu } from "../../redux/slice";
 import { MdDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 import { useLogoutMeMutation } from "../../redux/service";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 const MainMenu = () => {
     
@@ -15,7 +16,6 @@ const MainMenu = () => {
     const {anchorE1, darkMode, myInfo} = useSelector((state)=> state.service||{});
 
     const [logoutMe, logoutMeData] = useLogoutMeMutation();
-    const navigate = useNavigate();
     
     const handleClose = () => {
         dispatch(toggleMainMenu(null));
@@ -32,8 +32,8 @@ const MainMenu = () => {
     }
 
     useEffect(()=>{
-        if(logoutMeData?.isSuccess){
-            console.log(logoutMeData.data);
+        if(logoutMeData.isSuccess){
+            toast.warning(logoutMeData.data.msg);
         }
     },[logoutMeData.isSuccess])
     

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const serviceSlice = createSlice({
     name: "service",
     initialState: {
-        opneAddPostModal: false,
+        openAddPostModal: false,
         openEditProfileModal: false,
         anchorE1: null,
         anchorE2: null,
@@ -16,7 +16,7 @@ export const serviceSlice = createSlice({
     },
     reducers: {
         addPostModal: (state, action) => {
-            state.opneAddPostModal = action.payload;
+            state.openAddPostModal = action.payload;
         },
         editProfileModal: (state, action) => {
             state.openEditProfileModal = action.payload;

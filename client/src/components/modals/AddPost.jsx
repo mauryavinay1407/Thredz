@@ -17,22 +17,23 @@ import {useDispatch, useSelector} from "react-redux";
 import { addPostModal } from "../../redux/slice";
 import { useAddPostMutation } from "../../redux/service";
 import Loading from "../common/Loading";
+import { toast } from "sonner";
 
 const AddPost = () => {
     const _300 = useMediaQuery("(min-width: 300px)");
     const _500 = useMediaQuery("(min-width: 500px)");
     const _700 = useMediaQuery("(min-width: 700px)");
 
-    const [text, setText] = useState();
+    const [text, setText] = useState("");
     const [media, setMedia] = useState(null);
 
+    const mediaRef = useRef();
     const dispatch = useDispatch();
 
-    const {opneAddPostModal,myInfo} = useSelector((state) => state.service);
+    const {openAddPostModal,myInfo} = useSelector((state) => state.service);
 
     const [addNewPost,addNewPostData] = useAddPostMutation();
 
-    const mediaRef = useRef();
 
     const handleClose = () => {
         dispatch(addPostModal(false));
@@ -46,29 +47,29 @@ const AddPost = () => {
         if (media) {
           data.append("media", media);
         }
-        await addNewPost(data);
+        toast.promise(
+            addNewPost(data),
+            {
+                loading: "Posting...",
+                success: () => {
+                    setText("");
+                    setMedia(null);
+                    dispatch(addPostModal(false));
+                    return "Post added successfully!";
+                },
+                error: (err) => err?.data?.message || "Failed to add post",
+            }
+        );
       };
 
     const handleMediaRef = () => {
         mediaRef.current.click();
     };
 
-    useEffect(()=>{
-            if(addNewPostData.isSuccess){
-                setText();
-                setMedia(null);
-                dispatch(addPostModal(false));
-                console.log(addNewPostData.data);
-            }
-            if(addNewPostData.isError){
-                console.log(addNewPostData.error.data);
-            }
-        },[addNewPostData.isSuccess,addNewPostData.isError]);
-
     return (
         <>
             <Dialog
-                open={opneAddPostModal}
+                open={openAddPostModal}
                 onClose={handleClose}
                 fullWidth
                 fullScreen={_700 ? false : true}
@@ -110,6 +111,7 @@ const AddPost = () => {
                                 className="text1"
                                 placeholder="Start a Thread..."
                                 autoFocus
+                                onChange={(e) => setText(e.target.value)}
                             />
                             {media && (
                                 <img

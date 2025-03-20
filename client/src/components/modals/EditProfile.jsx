@@ -19,6 +19,7 @@ import {
     useUserDetailsQuery,
 } from "../../redux/service";
 import Loading from "../common/Loading";
+import { toast } from "sonner";
 
 const EditProfile = () => {
     const _700 = useMediaQuery("(min-width: 700px)");
@@ -54,20 +55,21 @@ const EditProfile = () => {
             if (pic) {
                 data.append("media", pic);
             }
-            await updateProfile(data);
+            toast.promise(
+                updateProfile(data)
+                    .unwrap()
+                    .then(() => {
+                        refetch(); 
+                        dispatch(editProfileModal(false)); 
+                    }),
+                {
+                    loading: "Updating profile...",
+                    success: "Profile updated successfully!",
+                    error: "Failed to update profile",
+                }
+            );
         }
-        dispatch(editProfileModal(false));
     };
-
-    useEffect(() => {
-        if (updateProfileData.isSuccess) {
-            refetch();
-            console.log(updateProfileData.data);
-        }
-        if (updateProfileData.isError) {
-            console.log(updateProfileData.error.data);
-        }
-    }, [updateProfileData.isSuccess, updateProfileData.isError]);
 
     return (
         <>
@@ -189,7 +191,7 @@ const EditProfile = () => {
                                 sx={{
                                     border: "2px solid gray",
                                     borderRadius: "10px",
-                                    bgcolor: "GrayText",
+                                    bgcolor: "blue",
                                     color: "white",
                                     width: "100%",
                                     my: 2,
