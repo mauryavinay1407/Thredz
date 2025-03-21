@@ -184,6 +184,13 @@ export const serviceApi = createApi({
                 { type: "Post", id: postId },
             ],
         }),
+        generateCaption: builder.mutation({
+            query: (formData) => ({
+                url: "generate-caption",
+                method: "POST",
+                body: formData,
+            }),
+        }),
     }),
 });
 
@@ -204,4 +211,5 @@ export const {
     useRepostMutation,
     useSinglePostQuery,
     useUpdateProfileMutation,
+    useGenerateCaptionMutation
 } = serviceApi;

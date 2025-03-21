@@ -3,7 +3,8 @@ const { User } = require("../models/user.model");
 const { Post } = require("../models/post.model");
 const { cloudinary } = require("../config/cloudinary");
 const { Comment } = require("../models/comment.model");
-const mongoose = require("mongoose");
+const axios = require("axios");
+const { InferenceClient } = require("@huggingface/inference");
 
 const addPost = async (req, res) => {
     try {
@@ -227,4 +228,37 @@ const singlePost = async (req, res) => {
     }
 };
 
-module.exports = { addPost, allPost, deletePost, likePost, repost, singlePost };
+
+const generateCaption = async (req, res) => {
+    try {
+        const imageBuffer = req.file.buffer;
+        const base64Image = imageBuffer.toString("base64");
+
+        const response = await axios.post(
+            "https://api-inference.huggingface.co/models/nlpconnect/vit-gpt2-image-captioning",
+            { inputs: base64Image }, 
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.HF_ACCESS_TOKEN}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const caption = response.data[0].generated_text;
+        res.status(200).json({ caption });
+    } catch (error) {
+        console.error("Error generating caption:", error.response?.data || error.message);
+        res.status(500).json({ message: "Failed to generate caption" });
+    }
+};
+
+module.exports = {
+    addPost,
+    allPost,
+    deletePost,
+    likePost,
+    repost,
+    singlePost,
+    generateCaption,
+};

@@ -17,10 +17,14 @@ const {
     likePost,
     repost,
     singlePost,
+    generateCaption,
 } = require("../controllers/post.controller");
 const { addComment, deleteComment } = require("../controllers/comment.controller");
 const router = express.Router();
+const multer = require("multer");
 
+const upload = multer();
+router.post("/generate-caption",auth,upload.single("media"),generateCaption);
 router.get("/", (req, res) => {
     res.json({ msg: "hello from server" });
 });
@@ -44,5 +48,7 @@ router.get("/post/:id", auth, singlePost);
 
 router.post("/comment/:id", auth, addComment);
 router.delete("/comment/:postId/:id", auth, deleteComment);
+
+router.post("/generate-caption",auth,upload.single("media"),generateCaption);
 
 module.exports = router;

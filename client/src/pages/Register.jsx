@@ -30,19 +30,19 @@ const Register = () => {
 
     useEffect(() => {
         if (signinUserData.isSuccess) {
-            toast.success(signinUserData.data.msg);
+            toast.success(signinUserData.data?.msg);
         }
         if (signinUserData.isError) {
-            toast.error(signinUserData.error.data.msg);
+            toast.error(signinUserData.error?.data?.msg);
         }
     }, [signinUserData.isSuccess, signinUserData.isError]);
     
     useEffect(() => {
         if (loginUserData.isSuccess) {
-            toast.success(loginUserData.data.msg);
+            toast.success(loginUserData.data?.msg);
         }
         if (loginUserData.isError) {
-            toast.error(loginUserData.error.data.msg);
+            toast.error(loginUserData.error?.data?.msg);
         }
     }, [loginUserData.isSuccess, loginUserData.isError]);
     
