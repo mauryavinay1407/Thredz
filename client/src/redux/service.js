@@ -10,7 +10,7 @@ import {
 export const serviceApi = createApi({
     reducerPath: "serviceApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:4000/api/",
+        baseUrl: `${BASE_URL}/api/`,
         credentials: "include",
     }),
     keepUnusedDataFor: 60 * 60 * 24 * 7,
