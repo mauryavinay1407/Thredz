@@ -22,7 +22,7 @@ const ProfileBar = ({ e }) => {
                 px={1}
                 py={2}
                 mx={"auto"}
-                boxShadow={"5px 5px 5px gray"}
+                boxShadow={`5px 5px 5px ${darkMode ? "black" : "gray"}`}
                 width={_700 ? "80%" : "90%"}
                 borderRadius={"15px"}
                 sx={{
@@ -42,6 +42,7 @@ const ProfileBar = ({ e }) => {
                                 variant="h6"
                                 fontWeight={"bold"}
                                 fontSize={_700 ? "1rem" : "0.9rem"}
+                                color={darkMode ? "white" : "black"}
                             >
                                 {e ? e.userName : ""}
                             </Typography>
@@ -56,8 +57,8 @@ const ProfileBar = ({ e }) => {
                         <Typography
                             variant="caption"
                             fontSize={_700 ? "1rem" : "0.9rem"}
-                            color="black"
-                        >
+                            color={darkMode ? "white" : "black"}
+                            >
                             {e ? e.followers.length : 0} followers
                         </Typography>
                     </Stack>
@@ -67,7 +68,7 @@ const ProfileBar = ({ e }) => {
                         size="medium"
                         sx={{
                             border: "1px solid gray",
-                            color: "black",
+                            color: darkMode ? "white" : "black",
                             borderRadius: "10px",
                             p: 2,
                             height: 40,

@@ -164,7 +164,6 @@ const AddPost = () => {
                                             style={{
                                                 border: "2px solid transparent",
                                                 borderRadius: "12px",
-                                                padding: "16px",
                                                 background: `
                                                     linear-gradient(to right, #4c1d95, #1e40af, #6d28d9) padding-box, /* Gradient background */
                                                     linear-gradient(to right, #4c1d95, #1e40af, #6d28d9) border-box /* Gradient border */

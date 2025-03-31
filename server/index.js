@@ -10,8 +10,8 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: "http://localhost:5173", // Explicitly allow frontend origin
-  credentials: true, // Allow cookies and authentication headers
+  origin: process.env.CLIENT_URL, 
+  credentials: true, 
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
