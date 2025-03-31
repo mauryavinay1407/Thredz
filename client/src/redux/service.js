@@ -6,6 +6,7 @@ import {
     addUser,
     deleteThePost,
 } from "./slice";
+import { BASE_URL } from "../../config";
 
 export const serviceApi = createApi({
     reducerPath: "serviceApi",
