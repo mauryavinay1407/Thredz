@@ -7,7 +7,7 @@ import Error from "./pages/Error";
 import Register from "./pages/Register";
 import { Box } from "@mui/material";
 import Layout from "./pages/Protected/Layout";
-import ProfileLayout from "./pages/Protected/profile/profileLayout";
+import ProfileLayout from "./pages/Protected/profile/ProfileLayout";
 import Threads from "./pages/Protected/profile/Threads";
 import Replies from "./pages/Protected/profile/Replies";
 import Reposts from "./pages/Protected/profile/Reposts";
